@@ -1,26 +1,37 @@
-/*
-We should know our code is coming together by running the tests. 
-You shouldn’t be relying on console.log or DOM methods to make sure your code is doing what you expect it to.
-Gameboards should be able to place ships at specific coordinates by calling the ship factory or class.
-Gameboards should have a receiveAttack function that takes a pair of coordinates,
- determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship,
- or records the coordinates of the missed shot.
-Gameboards should keep track of missed attacks so they can display them properly.
-Gameboards should be able to report whether or not all of their ships have been sunk.
-*/
-import Ship from './ship';
+export default function Gameboard() {
+  let board = Array(10)
+    .fill(null)
+    .map(() => Array(10).fill(null));
+  let misses = [];
+  let ships = [];
 
-export default class Gameboard {
-  constructor() {
-    // place ships at coordinates
-
-    this.misses = [];
+  function placeShip(ship, orientation, x, y) {
+    let shipLocation = [[x, y]];
+    for (let i = 1; i < ship.length; i++) {
+      let coord = orientation === 'x' ? [x + i, y] : [x, y + i];
+      board[coord[0]][coord[1]] = ship.id;
+      shipLocation.push([coord[0], coord[1]]);
+    }
+    ships.push(ship);
+    return shipLocation;
   }
 
-  receiveAttack(coordinates) {
-    // if (shipLocations contains coordinates)
-    //  hit
-    // else
-    //  this.misses.push(coordinates);
+  function receiveAttack(x, y) {
+    if (board[x][y] === null) {
+      misses.push([x, y]);
+      return misses;
+    } else {
+      const hitShip = ships.find((ship) => ship.id === board[x][y]);
+      hitShip.hit();
+      return hitShip.hits;
+    }
   }
+
+  return {
+    misses,
+    placeShip,
+    receiveAttack,
+  };
 }
+
+module.exports = Gameboard;

@@ -13,6 +13,7 @@ export default function Ship(id, length) {
 
   return {
     id,
+    length,
     hit,
     isSunk,
     get hits() {
