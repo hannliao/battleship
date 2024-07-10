@@ -6,16 +6,36 @@ export default function Gameboard() {
   let ships = [];
 
   function placeShip(ship, orientation, x, y) {
-    let shipLocation = [[x, y]];
-    board[x][y] = ship.id;
+    if (!isValidPlacement(ship, x, y)) {
+      throw new Error('ship cannot go off board');
+    }
 
-    for (let i = 1; i < ship.length; i++) {
-      let coord = orientation === 'x' ? [x + i, y] : [x, y + i];
-      board[coord[0]][coord[1]] = ship.id;
-      shipLocation.push([coord[0], coord[1]]);
+    let shipLocation = [];
+
+    for (let i = 0; i < ship.length; i++) {
+      const [nextX, nextY] = orientation === 'x' ? [x + i, y] : [x, y + i];
+      if (isCollision(nextX, nextY)) {
+        throw new Error('ship cannot collide with other ships');
+      }
+      board[nextX][nextY] = ship.id;
+      shipLocation.push([nextX, nextY]);
     }
     ships.push(ship);
     return shipLocation;
+  }
+
+  function isValidPlacement(ship, x, y) {
+    if (x > 10 - ship.length || y > 10 - ship.length) {
+      return false;
+    }
+    return true;
+  }
+
+  function isCollision(x, y) {
+    if (board[x][y] !== null) {
+      return true;
+    }
+    return false;
   }
 
   function receiveAttack(x, y) {
@@ -25,7 +45,6 @@ export default function Gameboard() {
     } else {
       const hitShip = ships.find((ship) => ship.id === board[x][y]);
       hitShip.hit();
-      console.log(`ship ${hitShip.id} has been hit`);
       return hitShip.hits;
     }
   }

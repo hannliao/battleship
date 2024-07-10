@@ -52,4 +52,22 @@ describe('Gameboard', () => {
       expect(gameboard.lost()).toBe(true);
     });
   });
+
+  describe('invalid placements', () => {
+    const cruiser = Ship('cruiser', 3);
+
+    test('ship is not fully on the board', () => {
+      expect(() => gameboard.placeShip(cruiser, 'y', 5, 8)).toThrow(
+        /cannot go off board/
+      );
+    });
+
+    test('ship collides with another ship', () => {
+      const submarine = Ship('submarine', 3);
+      gameboard.placeShip(cruiser, 'y', 5, 5);
+      expect(() => gameboard.placeShip(submarine, 'x', 5, 7)).toThrow(
+        /cannot collide/
+      );
+    });
+  });
 });
