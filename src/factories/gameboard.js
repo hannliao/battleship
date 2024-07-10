@@ -70,5 +70,3 @@ export default function Gameboard() {
     clear,
   };
 }
-
-module.exports = Gameboard;

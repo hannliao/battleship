@@ -21,5 +21,3 @@ export default function Ship(id, length) {
     },
   };
 }
-
-module.exports = Ship;
