@@ -11,6 +11,7 @@ export default function Player(name) {
     attacks.push([x, y]);
   }
   return {
+    name,
     gameboard,
     attack,
   };
