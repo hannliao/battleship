@@ -3,10 +3,11 @@ import Ship from '../factories/ship';
 
 describe('Gameboard', () => {
   const gameboard = Gameboard();
+  gameboard.clear();
   const battleship = Ship('battleship', 4);
   const destroyer = Ship('destroyer', 2);
 
-  describe('ship at D7', () => {
+  describe('battleship at D7', () => {
     test('place ship at D7 in the x-direction', () => {
       const shipLocation = gameboard.placeShip(battleship, 'x', 6, 3);
 
@@ -19,7 +20,7 @@ describe('Gameboard', () => {
     });
   });
 
-  describe('ship at G1', () => {
+  describe('destroyer at G1', () => {
     const shipLocation = gameboard.placeShip(destroyer, 'y', 0, 8);
 
     test('place ship at G1 in the y-direction', () => {
@@ -57,7 +58,7 @@ describe('Gameboard', () => {
     const cruiser = Ship('cruiser', 3);
 
     test('ship is not fully on the board', () => {
-      expect(() => gameboard.placeShip(cruiser, 'y', 5, 8)).toThrow(
+      expect(() => gameboard.placeShip(cruiser, 'y', 5, 9)).toThrow(
         /cannot go off board/
       );
     });

@@ -6,7 +6,7 @@ export default function Gameboard() {
   let ships = [];
 
   function placeShip(ship, orientation, x, y) {
-    if (!isValidPlacement(ship, x, y)) {
+    if (!isValidPlacement(ship, orientation, x, y)) {
       throw new Error('ship cannot go off board');
     }
 
@@ -17,15 +17,18 @@ export default function Gameboard() {
       if (isCollision(nextX, nextY)) {
         throw new Error('ship cannot collide with other ships');
       }
-      board[nextX][nextY] = ship.id;
       shipLocation.push([nextX, nextY]);
+      board[nextX][nextY] = ship.id;
     }
     ships.push(ship);
     return shipLocation;
   }
 
-  function isValidPlacement(ship, x, y) {
-    if (x > 10 - ship.length || y > 10 - ship.length) {
+  function isValidPlacement(ship, orientation, x, y) {
+    if (orientation === 'x' && x + ship.length > 10) {
+      return false;
+    }
+    if (orientation === 'y' && y + ship.length > 10) {
       return false;
     }
     return true;
@@ -68,5 +71,6 @@ export default function Gameboard() {
     receiveAttack,
     lost,
     clear,
+    board,
   };
 }
