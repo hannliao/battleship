@@ -1,18 +1,17 @@
 import Gameboard from './gameboard';
 
 export default function Player(name) {
-  const board = Gameboard();
+  const gameboard = Gameboard();
   let attacks = [];
 
   function attack(x, y) {
     if (attacks.includes([x, y])) {
       throw new Error('cannot attack same spot twice');
     }
-
     attacks.push([x, y]);
   }
   return {
-    board,
+    gameboard,
     attack,
   };
 }
