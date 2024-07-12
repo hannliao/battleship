@@ -4,7 +4,7 @@ import Player from './factories/player';
 import { renderBoard } from './dom';
 
 const game = () => {
-  const player1 = Player('your');
+  const player1 = Player('player');
   const player2 = Player('computer');
 
   const carrier = Ship('carrier', 5);
@@ -25,8 +25,37 @@ const game = () => {
   player2.gameboard.placeShip(submarine, 'y', 7, 7);
   player2.gameboard.placeShip(destroyer, 'y', 9, 8);
 
-  renderBoard(player2.gameboard);
-  renderBoard(player1.gameboard);
+  renderBoard(player2);
+  renderBoard(player1);
+
+  play(player1, player2);
 };
+
+let turn;
+
+const play = (player1, player2) => {
+  turn === player2 ? player1 : player2;
+
+  if (turn === player1) {
+    console.log('click a cell to launch an attack');
+  } else {
+    let randomX;
+    let randomY;
+    while (!player2.attacks.include([randomX, randomY])) {
+      randomX = generateRandomNumber();
+      randomY = generateRandomNumber();
+    }
+    player2.attack(randomX, randomY);
+  }
+
+  /*
+player1's turn - click a cell, event listener, computer receives attack
+player2's turn - computer attacks randomly, player receives attack, change cell color
+*/
+};
+
+function generateRandomNumber() {
+  return Math.floor(Math.random() * 10);
+}
 
 game();

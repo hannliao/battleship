@@ -1,3 +1,5 @@
+import { updateStats } from '../dom';
+
 export default function Gameboard() {
   let board = Array(10)
     .fill(null)
@@ -48,6 +50,9 @@ export default function Gameboard() {
     } else {
       const hitShip = ships.find((ship) => ship.id === board[x][y]);
       hitShip.hit();
+      if (hitShip.isSunk()) {
+        updateStats(hitShip.id);
+      }
       return hitShip.hits;
     }
   }

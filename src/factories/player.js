@@ -14,5 +14,6 @@ export default function Player(name) {
     name,
     gameboard,
     attack,
+    attacks,
   };
 }

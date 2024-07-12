@@ -41,13 +41,13 @@ describe('Gameboard', () => {
     });
 
     test('not all ships have been sunk', () => {
+      destroyer.hit();
       battleship.hit();
       battleship.hit();
       expect(gameboard.lost()).toBe(false);
     });
 
     test('all ships have been sunk', () => {
-      destroyer.hit();
       battleship.hit();
       battleship.hit();
       expect(gameboard.lost()).toBe(true);

@@ -1,30 +1,33 @@
-function renderBoard(gameboard) {
+import { addCellListeners } from './listeners';
+
+function renderBoard(player) {
   const board = document.createElement('div');
   board.classList.add('board');
 
-  for (let row = 0; row < gameboard.board.length; row++) {
-    for (let col = 0; col < gameboard.board[row].length; col++) {
+  for (let row = 0; row < player.gameboard.board.length; row++) {
+    for (let col = 0; col < player.gameboard.board[row].length; col++) {
       const cell = document.createElement('button');
       cell.classList.add('cell');
 
-      if (gameboard.board[col][row] !== null) {
+      if (player.gameboard.board[col][row] !== null) {
         cell.classList.add('ship');
       } else {
         cell.classList.add('empty');
       }
 
+      if (player.name === 'player') {
+        cell.disabled = true;
+      }
+
+      addCellListeners(cell);
       board.appendChild(cell);
     }
   }
 
   const { xAxisDiv, yAxisDiv } = renderAxes();
-  const boardContainer = document.createElement('div');
-  boardContainer.classList.add('board-container');
+  const boardContainer = document.querySelector(`.${player.name}.gameboard`);
   boardContainer.innerHTML = '';
   boardContainer.append(xAxisDiv, yAxisDiv, board);
-
-  const gameContainer = document.querySelector('#game');
-  gameContainer.appendChild(boardContainer);
 }
 
 function renderAxes() {
@@ -46,4 +49,9 @@ function renderAxis(label, axisDiv) {
   axisDiv.classList.add('axis');
 }
 
-export { renderBoard };
+function updateStats(shipId) {
+  const shipName = document.querySelector(`.${player.name} .${shipId}`);
+  shipName.classList.add('strikethrough');
+}
+
+export { renderBoard, updateStats };
