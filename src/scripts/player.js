@@ -2,13 +2,14 @@ import Gameboard from './gameboard';
 
 export default function Player(name) {
   const gameboard = Gameboard();
-  let attacks = [];
+  let attacks = new Set();
 
-  function attack(x, y) {
-    if (attacks.includes([x, y])) {
+  function attack(x, y, opponent) {
+    if (attacks.has(`${x},${y}`)) {
       throw new Error('cannot attack same spot twice');
     }
-    attacks.push([x, y]);
+    opponent.gameboard.receiveAttack(x, y);
+    attacks.add(`${x},${y}`);
   }
   return {
     name,

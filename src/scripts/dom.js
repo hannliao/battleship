@@ -1,33 +1,38 @@
-import { addCellListeners } from './listeners';
+import { turn } from '../index.js';
 
 function renderBoard(player) {
   const board = document.createElement('div');
   board.classList.add('board');
 
-  for (let row = 0; row < player.gameboard.board.length; row++) {
-    for (let col = 0; col < player.gameboard.board[row].length; col++) {
+  for (let row = 0; row < player.gameboard.size; row++) {
+    for (let col = 0; col < player.gameboard.size; col++) {
       const cell = document.createElement('button');
       cell.classList.add('cell');
-
+      cell.dataset.x = col;
+      cell.dataset.y = row;
       if (player.gameboard.board[col][row] !== null) {
         cell.classList.add('ship');
       } else {
         cell.classList.add('empty');
       }
-
       if (player.name === 'player') {
         cell.disabled = true;
       }
-
-      addCellListeners(cell);
       board.appendChild(cell);
     }
   }
-
   const { xAxisDiv, yAxisDiv } = renderAxes();
   const boardContainer = document.querySelector(`.${player.name}.gameboard`);
   boardContainer.innerHTML = '';
   boardContainer.append(xAxisDiv, yAxisDiv, board);
+}
+
+function renderCell(cell) {
+  if (cell.classList.contains('ship')) {
+    cell.classList.add('hit');
+  } else {
+    cell.classList.add('miss');
+  }
 }
 
 function renderAxes() {
@@ -50,8 +55,8 @@ function renderAxis(label, axisDiv) {
 }
 
 function updateStats(shipId) {
-  const shipName = document.querySelector(`.${player.name} .${shipId}`);
+  const shipName = document.querySelector(`.${turn.name} .${shipId}`);
   shipName.classList.add('strikethrough');
 }
 
-export { renderBoard, updateStats };
+export { renderBoard, renderCell, updateStats };

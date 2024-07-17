@@ -1,14 +1,12 @@
 export default function Ship(id, length) {
   let hits = 0;
-  let sunk = false;
 
   function hit() {
     hits += 1;
   }
 
   function isSunk() {
-    if (hits === length) sunk = true;
-    return sunk;
+    return hits === length;
   }
 
   return {

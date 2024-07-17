@@ -74,7 +74,6 @@ header {
   border-right: none;
 }
 
-/* hide opponent's ships */
 .player.gameboard .ship {
   background-color: var(--darkblue);
 }

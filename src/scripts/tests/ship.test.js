@@ -1,4 +1,4 @@
-import Ship from '../factories/ship';
+import Ship from '../ship';
 
 describe('Ship', () => {
   const ship = Ship('battleship', 4);

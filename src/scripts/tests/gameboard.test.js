@@ -1,33 +1,29 @@
-import Gameboard from '../factories/gameboard';
-import Ship from '../factories/ship';
+import Gameboard from '../gameboard';
+import Ship from '../ship';
 
 describe('Gameboard', () => {
   const gameboard = Gameboard();
-  gameboard.clear();
   const battleship = Ship('battleship', 4);
   const destroyer = Ship('destroyer', 2);
 
   describe('battleship at D7', () => {
-    test('place ship at D7 in the x-direction', () => {
-      const shipLocation = gameboard.placeShip(battleship, 'x', 6, 3);
+    test('place battleship at D7 in the x-direction', () => {
+      gameboard.placeShip(battleship, 'x', 6, 3);
 
-      expect(shipLocation).toEqual([
-        [6, 3],
-        [7, 3],
-        [8, 3],
-        [9, 3],
-      ]);
+      expect(
+        gameboard.board[6][3] &&
+          gameboard.board[7][3] &&
+          gameboard.board[8][3] &&
+          gameboard.board[9][3]
+      ).toBe('battleship');
     });
   });
 
   describe('destroyer at G1', () => {
-    const shipLocation = gameboard.placeShip(destroyer, 'y', 0, 8);
+    gameboard.placeShip(destroyer, 'y', 0, 8);
 
-    test('place ship at G1 in the y-direction', () => {
-      expect(shipLocation).toEqual([
-        [0, 8],
-        [0, 9],
-      ]);
+    test('place destroyer at G1 in the y-direction', () => {
+      expect(gameboard.board[0][8] && gameboard.board[0][9]).toBe('destroyer');
     });
 
     test('receive attack at ship location', () => {
@@ -36,8 +32,8 @@ describe('Gameboard', () => {
     });
 
     test('receive attack at unoccupied location', () => {
-      let misses = gameboard.receiveAttack(1, 8);
-      expect(misses).toEqual([[1, 8]]);
+      gameboard.receiveAttack(1, 8);
+      expect(gameboard.misses).toEqual([[1, 8]]);
     });
 
     test('not all ships have been sunk', () => {

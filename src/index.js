@@ -1,7 +1,9 @@
 import './style.css';
-import Ship from './factories/ship';
-import Player from './factories/player';
-import { renderBoard } from './dom';
+import Ship from './scripts/ship';
+import Player from './scripts/player';
+import { renderBoard, renderCell } from './scripts/dom';
+
+let turn;
 
 const game = () => {
   const player1 = Player('player');
@@ -28,30 +30,47 @@ const game = () => {
   renderBoard(player2);
   renderBoard(player1);
 
+  turn = player1;
   play(player1, player2);
-};
 
-let turn;
+  function play(player1, player2) {
+    const computerCells = document.querySelectorAll('.computer .cell');
+    computerCells.forEach((cell) => {
+      cell.addEventListener('click', (e) => {
+        cell.disabled = true;
+        const x = e.target.dataset.x;
+        const y = e.target.dataset.y;
+        player1.attack(x, y, player2);
+        renderCell(cell);
+        if (player2.gameboard.lost()) {
+          console.log('Player wins!');
+        } else {
+          turn = player2;
+        }
+      });
+    });
 
-const play = (player1, player2) => {
-  turn === player2 ? player1 : player2;
+    if (turn === player2) {
+      setTimeout(() => {
+        let randomX;
+        let randomY;
+        do {
+          randomX = generateRandomNumber();
+          randomY = generateRandomNumber();
+        } while (player2.attacks.has(`${randomX},${randomY}`));
 
-  if (turn === player1) {
-    console.log('click a cell to launch an attack');
-  } else {
-    let randomX;
-    let randomY;
-    while (!player2.attacks.include([randomX, randomY])) {
-      randomX = generateRandomNumber();
-      randomY = generateRandomNumber();
+        player2.attack(randomX, randomY, player1);
+        console.log(`${player1.gameboard.board[randomX][randomY]}`);
+        renderCell(player1.gameboard.board[randomX][randomY]);
+
+        if (player1.gameboard.lost()) {
+          console.log('Computer wins!');
+        } else {
+          turn = player1;
+        }
+      }, 1000);
     }
-    player2.attack(randomX, randomY);
   }
-
-  /*
-player1's turn - click a cell, event listener, computer receives attack
-player2's turn - computer attacks randomly, player receives attack, change cell color
-*/
 };
 
 function generateRandomNumber() {
@@ -59,3 +78,5 @@ function generateRandomNumber() {
 }
 
 game();
+
+export { turn };
