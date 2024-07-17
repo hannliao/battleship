@@ -1,4 +1,4 @@
-import { turn } from '../index.js';
+import { player1, player2, turn } from '../index.js';
 
 function renderBoard(player) {
   const board = document.createElement('div');
@@ -27,8 +27,9 @@ function renderBoard(player) {
   boardContainer.append(xAxisDiv, yAxisDiv, board);
 }
 
-function renderCell(cell) {
+function renderAttack(cell) {
   if (cell.classList.contains('ship')) {
+    cell.classList.remove('ship');
     cell.classList.add('hit');
   } else {
     cell.classList.add('miss');
@@ -55,8 +56,9 @@ function renderAxis(label, axisDiv) {
 }
 
 function updateStats(shipId) {
-  const shipName = document.querySelector(`.${turn.name} .${shipId}`);
+  const opponent = turn === player1 ? player2 : player1;
+  const shipName = document.querySelector(`.${opponent.name} .${shipId}`);
   shipName.classList.add('strikethrough');
 }
 
-export { renderBoard, renderCell, updateStats };
+export { renderBoard, renderAttack, updateStats };

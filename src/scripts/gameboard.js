@@ -61,10 +61,10 @@ export default function Gameboard() {
 
   return {
     size,
+    board,
     misses,
     placeShip,
     receiveAttack,
     lost,
-    board,
   };
 }

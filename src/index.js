@@ -1,14 +1,13 @@
 import './style.css';
 import Ship from './scripts/ship';
 import Player from './scripts/player';
-import { renderBoard, renderCell } from './scripts/dom';
+import { renderBoard, renderAttack } from './scripts/dom';
 
-let turn;
+const player1 = Player('player');
+const player2 = Player('computer');
+let turn = player1;
 
 const game = () => {
-  const player1 = Player('player');
-  const player2 = Player('computer');
-
   const carrier = Ship('carrier', 5);
   const battleship = Ship('battleship', 4);
   const cruiser = Ship('cruiser', 3);
@@ -30,48 +29,46 @@ const game = () => {
   renderBoard(player2);
   renderBoard(player1);
 
-  turn = player1;
   play(player1, player2);
-
-  function play(player1, player2) {
-    const computerCells = document.querySelectorAll('.computer .cell');
-    computerCells.forEach((cell) => {
-      cell.addEventListener('click', (e) => {
-        cell.disabled = true;
-        const x = e.target.dataset.x;
-        const y = e.target.dataset.y;
-        player1.attack(x, y, player2);
-        renderCell(cell);
-        if (player2.gameboard.lost()) {
-          console.log('Player wins!');
-        } else {
-          turn = player2;
-        }
-      });
-    });
-
-    if (turn === player2) {
-      setTimeout(() => {
-        let randomX;
-        let randomY;
-        do {
-          randomX = generateRandomNumber();
-          randomY = generateRandomNumber();
-        } while (player2.attacks.has(`${randomX},${randomY}`));
-
-        player2.attack(randomX, randomY, player1);
-        console.log(`${player1.gameboard.board[randomX][randomY]}`);
-        renderCell(player1.gameboard.board[randomX][randomY]);
-
-        if (player1.gameboard.lost()) {
-          console.log('Computer wins!');
-        } else {
-          turn = player1;
-        }
-      }, 1000);
-    }
-  }
 };
+
+function play(player1, player2) {
+  const computerCells = document.querySelectorAll('.computer .cell');
+  computerCells.forEach((cell) => {
+    cell.addEventListener('click', (e) => {
+      cell.disabled = true;
+      const x = e.target.dataset.x;
+      const y = e.target.dataset.y;
+      player1.attack(x, y, player2);
+      renderAttack(cell);
+      if (!player2.gameboard.lost()) {
+        turn = player2;
+        computerTurn();
+      }
+    });
+  });
+}
+
+function computerTurn() {
+  setTimeout(() => {
+    let randomX;
+    let randomY;
+    do {
+      randomX = generateRandomNumber();
+      randomY = generateRandomNumber();
+    } while (player2.attacks.has(`${randomX},${randomY}`));
+
+    player2.attack(randomX, randomY, player1);
+    const cell = document.querySelector(
+      `.player .cell[data-x='${randomX}'][data-y='${randomY}']`
+    );
+    renderAttack(cell);
+
+    if (!player1.gameboard.lost()) {
+      turn = player1;
+    }
+  }, 500);
+}
 
 function generateRandomNumber() {
   return Math.floor(Math.random() * 10);
@@ -79,4 +76,4 @@ function generateRandomNumber() {
 
 game();
 
-export { turn };
+export { player1, player2, turn };
