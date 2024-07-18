@@ -1,5 +1,6 @@
 :root {
   --bg-light: rgb(219, 205, 191);
+  --bg-dark: rgba(9, 49, 71, 0.7);
   --darkblue: rgb(9, 49, 71);
   --cell: rgb(106, 151, 160);
   --hover: rgb(131, 154, 164);
@@ -17,11 +18,15 @@
 }
 
 body {
+  background-color: var(--bg-light);
+}
+
+main {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background-color: var(--bg-light);
+  margin: 80px 0;
 }
 
 button:hover:enabled {
@@ -30,13 +35,17 @@ button:hover:enabled {
 }
 
 header {
-  margin: 50px;
+  padding: 40px;
+  background-color: var(--darkblue);
 }
 
-#game {
-  display: grid;
-  grid-template-columns: 1fr 200px;
-  gap: 50px;
+header h1 {
+  color: var(--bg-light);
+}
+
+section {
+  display: flex;
+  padding: 30px;
 }
 
 .gameboard {
@@ -87,7 +96,7 @@ header {
 
 .stats {
   text-align: center;
-  padding: 130px 0;
+  padding: 130px 40px;
 }
 
 ul {
@@ -102,4 +111,41 @@ li {
 
 .strikethrough {
   text-decoration: line-through;
+}
+
+dialog {
+  position: absolute;
+  top: 500px;
+  background-color: var(--darkblue);
+  display: none;
+  /* display: grid; */
+  justify-items: center;
+  align-content: center;
+  gap: 30px;
+  width: 100vw;
+  height: 250px;
+  border: none;
+}
+
+dialog * {
+  color: var(--bg-light);
+}
+
+dialog h1 {
+  color: var(--hit);
+}
+
+#close {
+  background-color: var(--cell);
+  padding: 12px 70px;
+  border: none;
+  border: 1px solid var(--border);
+  border-radius: 25px;
+  color: var(--darkblue);
+  font-weight: bold;
+}
+
+#close:hover {
+  background-color: var(--hover);
+  color: var(--darkblue);
 }

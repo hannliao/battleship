@@ -10,7 +10,7 @@
       <h1>Battleship</h1>
     </header>
     <main>
-      <section id="game">
+      <section class="computer">
         <div class="computer gameboard"></div>
         <div class="computer stats">
           <h2>Computer</h2>
@@ -22,6 +22,8 @@
             <li class="destroyer">Destroyer</li>
           </ul>
         </div>
+      </section>
+      <section class="player">
         <div class="player gameboard"></div>
         <div class="player stats">
           <h2>You</h2>
@@ -34,6 +36,11 @@
           </ul>
         </div>
       </section>
+      <dialog id="game-over">
+        <h1>Game Over</h1>
+        <h4 class="winner"></h4>
+        <button id="close">close</button>
+      </dialog>
     </main>
   </body>
 </html>

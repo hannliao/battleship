@@ -61,4 +61,15 @@ function updateStats(shipId) {
   shipName.classList.add('strikethrough');
 }
 
-export { renderBoard, renderAttack, updateStats };
+function gameOver(winner) {
+  const dialog = document.querySelector('dialog');
+  dialog.showModal();
+  const winnerDiv = document.querySelector('.winner');
+  winnerDiv.text = `${winner.name} wins!`;
+  const closeButton = document.getElementById('close');
+  closeButton.addEventListener('click', () => {
+    dialog.close();
+  });
+}
+
+export { renderBoard, renderAttack, updateStats, gameOver };
