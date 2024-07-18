@@ -61,15 +61,22 @@ function updateStats(shipId) {
   shipName.classList.add('strikethrough');
 }
 
-function gameOver(winner) {
-  const dialog = document.querySelector('dialog');
-  dialog.showModal();
-  const winnerDiv = document.querySelector('.winner');
-  winnerDiv.text = `${winner.name} wins!`;
-  const closeButton = document.getElementById('close');
-  closeButton.addEventListener('click', () => {
-    dialog.close();
+function clearStats() {
+  const stats = document.querySelectorAll('li');
+  stats.forEach((stat) => {
+    stat.classList.remove('strikethrough');
   });
 }
 
-export { renderBoard, renderAttack, updateStats, gameOver };
+function gameOver(winner) {
+  const dialog = document.querySelector('dialog');
+  dialog.style.display = 'grid';
+  const winnerDiv = document.querySelector('.winner');
+  winnerDiv.textContent = `${winner.name} wins!`;
+  const closeButton = document.getElementById('close');
+  closeButton.addEventListener('click', () => {
+    dialog.style.display = 'none';
+  });
+}
+
+export { renderBoard, renderAttack, updateStats, clearStats, gameOver };
