@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battleship</title>
+  <script defer src="bundle.js"></script></head>
+  <body>
+    <header>
+      <h1>Battleship</h1>
+      <button id="new-game">New Game</button>
+    </header>
+
+    <main>
+      <section class="computer">
+        <div class="computer gameboard"></div>
+        <div class="computer stats">
+          <h2>Computer</h2>
+          <ul>
+            <li class="carrier">Carrier</li>
+            <li class="battleship">Battleship</li>
+            <li class="cruiser">Cruiser</li>
+            <li class="submarine">Submarine</li>
+            <li class="destroyer">Destroyer</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="player">
+        <div class="player gameboard"></div>
+        <div class="player stats">
+          <h2>You</h2>
+          <ul>
+            <li class="carrier">Carrier</li>
+            <li class="battleship">Battleship</li>
+            <li class="cruiser">Cruiser</li>
+            <li class="submarine">Submarine</li>
+            <li class="destroyer">Destroyer</li>
+          </ul>
+        </div>
+      </section>
+      <dialog id="game-over">
+        <h1>Game Over</h1>
+        <h4 class="winner">who wins</h4>
+        <button id="close">close</button>
+      </dialog>
+    </main>
+
+    <footer>
+      <p>
+        &copy; 2024
+        <a
+          href="https://github.com/hannliao?tab=repositories"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Hannah Liao</a
+        >. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>
